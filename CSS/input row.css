@@ -1,0 +1,53 @@
+ /* ---------- Input Row ---------- */
+        .input-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #dce3ed;
+            border-radius: 16px;
+            font-size: 15px;
+            background: #ffffff;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        .input-row input:focus {
+            border-color: #4f7df3;
+            box-shadow: 0 0 0 4px rgba(79, 125, 243, 0.15);
+        }
+
+        .input-row input::placeholder {
+            color: #aab3c5;
+        }
+
+        .input-row button {
+            padding: 14px 24px;
+            background: #4f7df3;
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(79, 125, 243, 0.3);
+        }
+
+        .input-row button:hover {
+            background: #3b66d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 125, 243, 0.35);
+        }
+
+        .input-row button:active {
+            transform: translateY(0);
+        }

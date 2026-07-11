@@ -1,0 +1,111 @@
+/* ---------- Task List ---------- */
+        .task-list {
+            list-style: none;
+            max-height: 340px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .task-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .task-list::-webkit-scrollbar-track {
+            background: #eef2f8;
+            border-radius: 10px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb {
+            background: #c8d2e0;
+            border-radius: 10px;
+        }
+
+        /* ---------- Task Item ---------- */
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef2f8;
+            transition: 0.2s;
+            animation: slideIn 0.3s ease;
+        }
+
+        .task-item:hover {
+            border-color: #d0d9e8;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-left input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4f7df3;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .task-text {
+            font-size: 15px;
+            color: #1a2639;
+            word-break: break-word;
+            transition: 0.2s;
+        }
+
+        .task-text.done {
+            text-decoration: line-through;
+            color: #8e9bb0;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .task-actions button {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #6b7a8f;
+            line-height: 1;
+        }
+
+        .task-actions .edit-btn:hover {
+            background: #eef2f8;
+            color: #4f7df3;
+        }
+
+        .task-actions .delete-btn:hover {
+            background: #fee8e8;
+            color: #d14545;
+        }
+
+        

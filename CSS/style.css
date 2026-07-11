@@ -1,0 +1,49 @@
+        /* ---------- Reset & Base ---------- */
+
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #f5f7fa 0%, #e9edf5 100%);
+            padding: 20px;
+        }
+
+        .todo-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            width: 100%;
+            max-width: 520px;
+            padding: 32px 28px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.15),
+                0 8px 24px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: 0.3s;
+        }
+
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a2639;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #6b7a8f;
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            border-left: 3px solid #4f7df3;
+            padding-left: 14px;
+        }
