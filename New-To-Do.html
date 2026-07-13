@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📋 To-Do List</title>
+    <style>
+        /* ---------- Reset & Base ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #f5f7fa 0%, #e9edf5 100%);
+            padding: 20px;
+        }
+
+        .todo-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            width: 100%;
+            max-width: 520px;
+            padding: 32px 28px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 20, 40, 0.15),
+                0 8px 24px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: 0.3s;
+        }
+
+        h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a2639;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            color: #6b7a8f;
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            border-left: 3px solid #4f7df3;
+            padding-left: 14px;
+        }
+
+        /* ---------- Input Row ---------- */
+        .input-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid #dce3ed;
+            border-radius: 16px;
+            font-size: 15px;
+            background: #ffffff;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        .input-row input:focus {
+            border-color: #4f7df3;
+            box-shadow: 0 0 0 4px rgba(79, 125, 243, 0.15);
+        }
+
+        .input-row input::placeholder {
+            color: #aab3c5;
+        }
+
+        .input-row button {
+            padding: 14px 24px;
+            background: #4f7df3;
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(79, 125, 243, 0.3);
+        }
+
+        .input-row button:hover {
+            background: #3b66d4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(79, 125, 243, 0.35);
+        }
+
+        .input-row button:active {
+            transform: translateY(0);
+        }
+
+        /* ---------- Stats ---------- */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5a72;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #eef2f8;
+            margin-bottom: 18px;
+        }
+
+        .stats span {
+            background: #eef2f8;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* ---------- Task List ---------- */
+        .task-list {
+            list-style: none;
+            max-height: 340px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .task-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .task-list::-webkit-scrollbar-track {
+            background: #eef2f8;
+            border-radius: 10px;
+        }
+
+        .task-list::-webkit-scrollbar-thumb {
+            background: #c8d2e0;
+            border-radius: 10px;
+        }
+
+        /* ---------- Task Item ---------- */
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eef2f8;
+            transition: 0.2s;
+            animation: slideIn 0.3s ease;
+        }
+
+        .task-item:hover {
+            border-color: #d0d9e8;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-left input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #4f7df3;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .task-text {
+            font-size: 15px;
+            color: #1a2639;
+            word-break: break-word;
+            transition: 0.2s;
+        }
+
+        .task-text.done {
+            text-decoration: line-through;
+            color: #8e9bb0;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-left: 10px;
+        }
+
+        .task-actions button {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #6b7a8f;
+            line-height: 1;
+        }
+
+        .task-actions .edit-btn:hover {
+            background: #eef2f8;
+            color: #4f7df3;
+        }
+
+        .task-actions .delete-btn:hover {
+            background: #fee8e8;
+            color: #d14545;
+        }
+
+        /* ---------- Empty State ---------- */
+        .empty-state {
+            text-align: center;
+            padding: 40px 10px;
+            color: #8e9bb0;
+        }
+
+        .empty-state span {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            font-weight: 450;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 480px) {
+            .todo-card {
+                padding: 22px 16px;
+            }
+            .input-row {
+                flex-wrap: wrap;
+            }
+            .input-row button {
+                width: 100%;
+                justify-content: center;
+            }
+            .task-item {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .task-actions {
+                margin-left: 34px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="todo-card">
+        <h1>📋 To-Do List</h1>
+        <div class="subtitle">Stay organized, stay productive.</div>
+
+        <!-- Input Row -->
+        <div class="input-row">
+            <input type="text" id="taskInput" placeholder="Write a new task…" />
+            <button id="addBtn">➕ Add</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <span id="totalCount">0 total</span>
+            <span id="doneCount">0 done</span>
+        </div>
+
+        <!-- Task List -->
+        <ul class="task-list" id="taskList">
+            <!-- Tasks rendered by JavaScript -->
+        </ul>
+    </div>
+
+    <script>
+        // ================================================================
+        //  1.  VARIABLES
+        // ================================================================
+
+        // Array to hold all task objects
+        let tasks = [];
+
+        // DOM references (cached for performance)
+        const taskListEl = document.getElementById('taskList');
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const totalCountEl = document.getElementById('totalCount');
+        const doneCountEl = document.getElementById('doneCount');
+
+        // ================================================================
+        //  2.  FUNCTIONS
+        // ================================================================
+
+        // ---------- 2a.  Render all tasks to the DOM ----------
+        function renderTasks() {
+            // Clear the list container
+            taskListEl.innerHTML = '';
+
+            // If no tasks, show empty state
+            if (tasks.length === 0) {
+                taskListEl.innerHTML = `
+                    <div class="empty-state">
+                        <span>📭</span>
+                        <p>No tasks yet — add one above!</p>
+                    </div>
+                `;
+                updateStats();
+                return;
+            }
+
+            // ---------- 2b.  LOOP through tasks and build <li> elements ----------
+            for (let i = 0; i < tasks.length; i++) {
+                const task = tasks[i];
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.dataset.index = i;
+
+                // ---- left side: checkbox + text ----
+                const leftDiv = document.createElement('div');
+                leftDiv.className = 'task-left';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.done;
+                // Event: toggle done status
+                checkbox.addEventListener('change', function() {
+                    toggleTaskDone(i);
+                });
+
+                const textSpan = document.createElement('span');
+                textSpan.className = 'task-text' + (task.done ? ' done' : '');
+                textSpan.textContent = task.text;
+
+                leftDiv.appendChild(checkbox);
+                leftDiv.appendChild(textSpan);
+
+                // ---- right side: action buttons ----
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'task-actions';
+
+                // Edit button
+                const editBtn = document.createElement('button');
+                editBtn.className = 'edit-btn';
+                editBtn.textContent = '✏️';
+                editBtn.title = 'Edit task';
+                editBtn.addEventListener('click', function() {
+                    editTask(i);
+                });
+
+                // Delete button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = '🗑️';
+                deleteBtn.title = 'Delete task';
+                deleteBtn.addEventListener('click', function() {
+                    deleteTask(i);
+                });
+
+                actionsDiv.appendChild(editBtn);
+                actionsDiv.appendChild(deleteBtn);
+
+                li.appendChild(leftDiv);
+                li.appendChild(actionsDiv);
+                taskListEl.appendChild(li);
+            }
+
+            // Update stats after rendering
+            updateStats();
+        }
+
+        // ---------- 2c.  Add a new task ----------
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') {
+                alert('Please enter a task.');
+                return;
+            }
+
+            // Push new task object into the array
+            tasks.push({
+                text: text,
+                done: false
+            });
+
+            // Clear input & refocus
+            taskInput.value = '';
+            taskInput.focus();
+
+            // Re-render the list
+            renderTasks();
+        }
+
+        // ---------- 2d.  Delete a task by index ----------
+        function deleteTask(index) {
+            if (index < 0 || index >= tasks.length) return;
+            // Remove the task from the array
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        // ---------- 2e.  Toggle done status ----------
+        function toggleTaskDone(index) {
+            if (index < 0 || index >= tasks.length) return;
+            // Flip the 'done' boolean
+            tasks[index].done = !tasks[index].done;
+            renderTasks();
+        }
+
+        // ---------- 2f.  Edit a task ----------
+        function editTask(index) {
+            if (index < 0 || index >= tasks.length) return;
+            const currentText = tasks[index].text;
+            // Prompt user for new text
+            const newText = prompt('Edit your task:', currentText);
+            if (newText === null) return; // cancelled
+            const trimmed = newText.trim();
+            if (trimmed === '') {
+                alert('Task cannot be empty.');
+                return;
+            }
+            // Update the task text
+            tasks[index].text = trimmed;
+            renderTasks();
+        }
+
+        // ---------- 2g.  Update stats (total / done) ----------
+        function updateStats() {
+            const total = tasks.length;
+            let doneCount = 0;
+            // Loop to count done tasks
+            for (let i = 0; i < tasks.length; i++) {
+                if (tasks[i].done) doneCount++;
+            }
+            totalCountEl.textContent = total + ' total';
+            doneCountEl.textContent = doneCount + ' done';
+        }
+
+        // ================================================================
+        //  3.  EVENT LISTENERS
+        // ================================================================
+
+        // Add button click
+        addBtn.addEventListener('click', addTask);
+
+        // Enter key on input field
+        taskInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+
+        // ================================================================
+        //  4.  INITIALISE with some sample tasks (optional)
+        // ================================================================
+
+        // Pre-populate with a few examples to show the app works
+        tasks = [
+            { text: 'Learn JavaScript', done: true },
+            { text: 'Build a To-Do List', done: false },
+            { text: 'Review DOM manipulation', done: false },
+        ];
+
+        // Render everything
+        renderTasks();
+
+        // Focus the input on load
+        taskInput.focus();
+
+    </script>
+
+</body>
+</html>
